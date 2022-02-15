@@ -32,6 +32,8 @@ export function Repositories() {
     const res = await axios.get('https://api.github.com/users/mateusjbarbosa/repos')
 
     return res.data
+  }, {
+    staleTime: 1000 * 60, // 1 minute
   })
 
   return (
