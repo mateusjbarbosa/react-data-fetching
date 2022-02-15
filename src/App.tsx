@@ -1,8 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+type Repository = {
+  full_name: string
+  description: string
+}
 
 function App() {
+  const [repositories, setRepositories] = useState<Repository[]>([])
+
+  useEffect(() => {
+  fetch('https://api.github.com/users/mateusjbarbosa/repos')
+    .then(res => res.json())
+    .then(data => { setRepositories(data) })
+  }, [])
+
   return (
-    <h1>Hello, world!</h1>
+    <ul>
+      {repositories.map(repo => (
+        <li key={repo.full_name}>
+          <strong>{repo.full_name}</strong>
+          <p>{repo.description}</p>
+        </li>
+      ))}
+    </ul>
   )
 }
 
