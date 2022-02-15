@@ -1,8 +1,10 @@
 // import { useEffect, useState } from 'react'
 
-// import axios from 'axios'
+import axios from 'axios'
 
-import { useFetch } from './hooks/useFetch'
+import { useQuery } from "react-query"
+
+// import { useFetch } from './hooks/useFetch'
 
 type Repository = {
   full_name: string
@@ -12,17 +14,23 @@ type Repository = {
 function App() {
   // const [repositories, setRepositories] = useState<Repository[]>([])
 
-  const { data: repositories, isFetching } =
-    useFetch<Repository[]>('users/mateusjbarbosa/repos')
+  // const { data: repositories, isFetching } =
+  //   useFetch<Repository[]>('users/mateusjbarbosa/repos')
+
+  const { data: repositories, isFetching } = useQuery<Repository[]>('repos', async () => {
+    const res = await axios.get('https://api.github.com/users/mateusjbarbosa/repos')
+
+    return res.data
+  })
 
   // useEffect(() => {
-  // fetch('https://api.github.com/users/mateusjbarbosa/repos')
-  //   .then(res => res.json())
-  //   .then(data => { setRepositories(data) })
+  //   fetch('https://api.github.com/users/mateusjbarbosa/repos')
+  //     .then(res => res.json())
+  //     .then(data => { setRepositories(data) })
 
-  // axios
-  //   .get('https://api.github.com/users/mateusjbarbosa/repos')
-  //   .then(response => { setRepositories(response.data) })
+  //   axios
+  //     .get('https://api.github.com/users/mateusjbarbosa/repos')
+  //     .then(response => { setRepositories(response.data) })
   // }, [])
 
   return (
